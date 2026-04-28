@@ -1,8 +1,6 @@
 name: Tests
 
-on:
-  push:
-    branches: [ main ]
+on: [push]
 
 jobs:
   test:
@@ -10,21 +8,24 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Configurar Python
+        uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Instalar dependencias
+        run: |
+          pip install -r requirements.txt
+          pip install pytest-html
 
-      - name: Run tests
-        run: PYTHONPATH=. pytest --html=report.html --self-contained-html
+      - name: Ejecutar tests
+        run: |
+          PYTHONPATH=. pytest --html=report.html
 
-      - name: Upload report artifact
-        uses: actions/upload-artifact@v4
+      - name: Subir reporte
+        uses: actions/upload-artifact@v3
         with:
           name: pytest-report
           path: report.html
